@@ -1,0 +1,95 @@
+CDS_file: input/CDS_regions/Medicago_truncatula_CDS.bed
+ncRNAs_file: input/ncRNAS/MtrunA17r5.0-ANR-EGN-r1.7_ncRNAs.gff3
+TEs_file: input/TEs/MtrunA17r5.0-20161119-ANR_tephra_transposons_v1.1.locus_tags.20171205.fix.gff3
+ref_genome: input/genome/MtrunA17r5.0-20161119-ANR.fasta
+gtf_file: input/genome/MtrunA17r5.0-ANR-EGN-r1.6.gtf
+
+linking_phastcons:
+    path: PhastCons
+    score_files:
+        [
+    "all_Nfix.all",
+    "outside.all"
+        ]
+    folder_name: input/phastcons
+
+removing_overlaps_CDS:
+    folder_name: filt_to_remove_CDS
+
+removing_overlaps_ncRNAs:
+    folder_name: filt_to_remove_ncRNAs
+
+removing_overlaps_TEs:
+    folder_name: filt_to_remove_TEs
+
+removing_mito_and_cloro:
+    folder_name: filt_to_remove_mito_and_cloro
+
+get_fast_seqs_of_CNS:
+    folder_name: fasta_CNS
+    size: 21
+
+blastx_of_CNS:
+    max_target_seqs: 10
+    max_hsps: 3
+    evalue: 0.01
+    num_threads: 24
+
+remove_CNS_with_blast_hits:
+    folder_name: final_CNS
+    evalue: 0.01
+    lenght: 0
+
+dist_to_genes_medicago:
+    output:
+        [
+    "Medicago_CDS_TSS_to_TSE.bed",
+    "CNS_dist_to_CDS.tst"
+        ]
+
+necessary_inputs:
+    tools:
+        [
+    "mafIndex", #https://github.com/hillerlab/CESAR2.0/raw/master/tools/mafIndex
+    "mafExtract" #https://github.com/hillerlab/CESAR2.0/raw/master/tools/mafExtract
+        ]
+    trees:
+        [
+    "forw_gen_tree_18_species.tree", # without ancestors
+    forw_gen_tree_w_ancestors_18_species.nh
+        ]
+    reference_genome: /orange/kirst/wendellpereira/reference_genomes/medicagov5/masked_by_tantan/Medicago_truncatula_masked
+    genomes: # Masked with tantan
+        [
+    "Alnus_glutinosa_masked",
+    "Cajanus_cajan_masked",
+    "Casuarina_glauca_masked",
+    "Chamaecrista_fasciculata_masked",
+    "Cicer_arietinum_masked",
+    "Cicer_echinospermum_masked",
+    "Cicer_reticulatum_masked",
+    "Datisca_glomerata_masked",
+    "Dryas_drummondii_masked",
+    "Glycine_max_masked",
+    "Lotus_japonicus_masked",
+    "Lupinus_angustifolius_masked",
+    "Medicago_truncatula_masked",
+    "Mimosa_pudica_masked",
+    "Mucuna_pruriens_masked",
+    "Ochetophila_trinervis_masked",
+    "Parasponia_andersonii_masked",
+    "Phaseolus_coccineus_subsp._coccineus_masked",
+    "Phaseolus_vulgaris_masked",
+    "Purshia_tridentata_masked",
+    "Trifolium_pratense_masked",
+    "Trifolium_subterraneum_masked",
+    "Vigna_angularis_masked",
+    "Vigna_radiata_masked",
+    "Vigna_unguiculata_masked"
+        ]
+    genome_dir: genomes/
+    maf_path: multiple_alignments_ROAST/
+    maf: all_Nfix.sing # without .maf
+    n_of_species_in_maf: 24
+    features: ../
+    phenotypes: nfix_phenotypes_18_species.tst

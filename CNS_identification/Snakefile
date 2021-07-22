@@ -1,0 +1,670 @@
+## Code to reproduce the founds of the manuscript "Functional and comparative genomics reveals conserved noncoding sequences in the nitrogen-fixing clade"
+##
+## Maintainer: Wendell J. Pereira (wendellpereira@ufl.edu)
+##
+## This code is set to run in a slurmn environment and hard-coded to the samples used in the study. This section should be executed after the generation of the conserved regions by PhastCons.
+
+configfile: "config.yaml"
+run_in_slurm_env = True
+
+if run_in_slurm_env == True:
+    shell.prefix("module load R; module load bedtools; module load cnspipeline; module load ncbi_blast; module load edirect; module load ucsc/20200320; module load samtools/1.3.1; module load perl/5.24.1; module load prank/170427; module load phast/1.5")
+
+rule all:
+    input:
+        # Check the required files
+        "input/CDS_regions/Medicago_truncatula_CDS.bed",
+
+        # Requires the outputs of all rules, so it executes all the code
+
+        "input/phastcons/all_Nfix.all.bed",
+        "input/phastcons/outside.all.bed",
+        "filt_to_remove_CDS/all_Nfix.all_filtered.bed",
+        "filt_to_remove_ncRNAs/all_Nfix.all_filtered.bed",
+        "filt_to_remove_TEs/all_Nfix.all_filtered.bed",
+        "filt_to_remove_mito_and_cloro/all_Nfix.all_filtered.bed",
+        "fasta_CNS/all_Nfix.all_filtered.txt",
+        "final_CNS/all_Nfix.all_final.bed",
+        "reference_genome.sizes",
+        "species/Alnus_glutinosa_masked.2bit",
+        "species/Cajanus_cajan_masked.2bit",
+        "species/Casuarina_glauca_masked.2bit",
+        "species/Chamaecrista_fasciculata_masked.2bit",
+        "species/Cicer_arietinum_masked.2bit",
+        "species/Cicer_echinospermum_masked.2bit",
+        "species/Cicer_reticulatum_masked.2bit",
+        "species/Datisca_glomerata_masked.2bit",
+        "species/Dryas_drummondii_masked.2bit",
+        "species/Glycine_max_masked.2bit",
+        "species/Lotus_japonicus_masked.2bit",
+        "species/Lupinus_angustifolius_masked.2bit",
+        "species/Medicago_truncatula_masked.2bit",
+        "species/Mimosa_pudica_masked.2bit",
+        "species/Mucuna_pruriens_masked.2bit",
+        "species/Ochetophila_trinervis_masked.2bit",
+        "species/Parasponia_andersonii_masked.2bit",
+        "species/Phaseolus_coccineus_subsp._coccineus_masked.2bit",
+        "species/Phaseolus_vulgaris_masked.2bit",
+        "species/Purshia_tridentata_masked.2bit",
+        "species/Trifolium_pratense_masked.2bit",
+        "species/Trifolium_subterraneum_masked.2bit",
+        "species/Vigna_angularis_masked.2bit",
+        "species/Vigna_radiata_masked.2bit",
+        "species/Vigna_unguiculata_masked.2bit",
+        "multiple_alignments_ROAST/all_Nfix.sing_with_I_row.maf",
+        "all_Nfix.sing_with_I_row.bb",
+        "all_Nfix.sing_with_I_row.maf",
+        "Medicago_CDS_TSS_to_TSE.bed",
+        "final_CNS/both_strand_all_Nfix.all_final.bed",
+        "CNS_dist_to_CDS.tst",
+        "coordinates.tst",
+        "CNS_coord_in_soybean.bed",
+        "CNS_dist_to_CDS_soybean.tst",
+        "Mtrun_unclassified_CNS.bed",
+        "Mtrun_classified_CNS.bed",
+        "Soybean_unclassified_CNS.bed",
+        "Soybean_classified_CNS.bed",
+        "class_organized_medicago.txt",
+        "class_organized_Soybean.txt",
+        "ALL_CNS_classification_MED_vs_SOY.tst",
+        "integrative_orthology.ORTHO_Medicago.csv",
+        "Comparison_Med_Soybean_all_ORTHOLOGOUS_ORTHO_unfiltered.tst",
+        "CNS_classified_orthogroup_but_unfiltered_ORTHO.tst",
+        "selected_CNS_same_orthogroup.bed",
+        "gene_expression_tpm_qnorm_zeromeaned.tst",
+        "all_CNS_heatmap.svg, all_CNS_heatmap_upstream.svg",
+        "all_CNS_heatmap_intronic.svg",
+        "all_CNS_heatmap_downstream.svg",
+        "all_CNS_heatmap_distal_upstream.svg",
+        "all_CNS_correlation.tst",
+        "correlation_significance_all_CNS.svg",
+        "correlation_significance_upstream.svg",
+        "correlation_significance_downstream_all.svg",
+        "correlation_significance_distal_upstream_all.svg",
+        "heatmap_sig_corr_positive_upstream.svg",
+        "heatmap_sig_corr_positive_downstream.svg",
+        "heatmap_sig_corr_positive_distal_upstream.svg",
+        "heatmap_sig_corr_negative_upstream.svg",
+        "heatmap_sig_corr_negative_downstream.svg",
+        "heatmap_sig_corr_negative_distal_upstream.svg",
+        "nfix_cns/nfix_all_Nfix.all_final.bed",
+        "nfix_all_CNS_heatmap.svg",
+        "nfix_all_CNS_heatmap_upstream.svg",
+        "nfix_all_CNS_heatmap_intronic.svg",
+        "nfix_all_CNS_heatmap_downstream.svg",
+        "nfix_all_CNS_heatmap_distal_upstream.svg",
+        "nfix_correlation_significance_all_CNS.svg",
+        "nfix_correlation_significance_upstream.svg",
+        "nfix_correlation_significance_downstream_all.svg",
+        "nfix_correlation_significance_distal_upstream_all.svg",
+        "nfix_heatmap_sig_corr_positive_upstream.svg",
+        "nfix_heatmap_sig_corr_positive_downstream.svg",
+        "nfix_heatmap_sig_corr_positive_distal_upstream.svg", "nfix_heatmap_sig_corr_negative_upstream.svg",
+        "nfix_heatmap_sig_corr_negative_downstream.svg",
+        "nfix_heatmap_sig_corr_negative_distal_upstream.svg",
+        "nod_genes_ATCseq_RNAseq.svg"
+
+rule linking_phastcons:
+    input:
+        expand("{path}/{score_files}.bed",
+        path=config["linking_phastcons"]["path"],
+        score_files=config["linking_phastcons"]["score_files"])
+    params:
+        path=expand("{path}", path=config["linking_phastcons"]["path"]),
+        folder_name=expand("{folder_name}", folder_name=config["linking_phastcons"]["folder_name"])
+    output:
+        expand("{folder_name}/{linking_phastcons}.bed",
+        folder_name=config["linking_phastcons"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])
+    shell:
+        """
+        cp {params.path}/*.all.bed {params.folder_name}/
+        """
+
+rule removing_overlaps_CDS:
+    input:
+        expand("{folder_name}/{linking_phastcons}.bed",
+        folder_name=config["linking_phastcons"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        CDS=expand("{CDS}", CDS=config["CDS_file"]),
+        out_folder=expand("{folder_name}/", folder_name=config["removing_overlaps_CDS"]["folder_name"])
+    output:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_overlaps_CDS"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    shell:
+        """
+        for sample in {input}
+        do
+
+        base=$(basename $sample ".bed")
+
+        bedtools intersect -v -a $sample -b {params.CDS} > {params.out_folder}/${{base}}_filtered.bed
+
+        done
+
+        """
+
+rule removing_overlaps_ncRNAs:
+    input:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_overlaps_CDS"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        ncRNAs=expand("{ncRNAs}", ncRNAs=config["ncRNAs_file"]),
+        out_folder=expand("{folder_name}/", folder_name=config["removing_overlaps_ncRNAs"]["folder_name"])
+    output:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_overlaps_ncRNAs"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    shell:
+        """
+        for sample in {input}
+        do
+
+        base=$(basename $sample "_filtered.bed")
+
+        bedtools intersect -v -a $sample -b {params.ncRNAs} > {params.out_folder}/${{base}}_filtered.bed
+
+        done
+
+        """
+
+rule removing_overlaps_TEs:
+    input:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_overlaps_ncRNAs"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        TEs_file=expand("{TEs_file}", TEs_file=config["TEs_file"]),
+        out_folder=expand("{folder_name}/", folder_name=config["removing_overlaps_TEs"]["folder_name"])
+    output:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_overlaps_TEs"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    shell:
+        """
+        for sample in {input}
+        do
+
+        base=$(basename $sample "_filtered.bed")
+
+        bedtools intersect -v -a $sample -b {params.TEs_file} > {params.out_folder}/${{base}}_filtered.bed
+
+        done
+
+        """
+
+rule removing_mito_and_cloro:
+    input:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_overlaps_TEs"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        out_folder=expand("{folder_name}/", folder_name=config["removing_mito_and_cloro"]["folder_name"])
+    output:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_mito_and_cloro"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    shell:
+        """
+        for sample in {input}
+        do
+
+        base=$(basename $sample "_filtered.bed")
+
+        grep -v "MtrunA17CP" $sample > temp.bed
+        grep -v "MtrunA17MT" temp.bed > {params.out_folder}${{base}}_filtered.bed
+
+        rm temp.bed
+
+        done
+
+        """
+
+rule get_fast_seqs_of_CNS:
+    input:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_mito_and_cloro"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        out_folder=expand("{folder_name}", folder_name=config["get_fast_seqs_of_CNS"]["folder_name"]),
+        ref_genome=expand("{ref_genome}", ref_genome=config["ref_genome"]),
+        size=config["get_fast_seqs_of_CNS"]["size"]
+    output:
+        expand("{folder_name}/{linking_phastcons}_filtered.fa",
+        folder_name=config["get_fast_seqs_of_CNS"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    shell:
+        """
+        for sample in {input}
+        do
+
+        base=$(basename $sample ".bed")
+
+        Rscript filter_CNS_by_size.R --size {params.size} --out1 temp.bed $sample
+
+        bedtools getfasta -name -fo {params.out_folder}/${{base}}.fa -fi {params.ref_genome} -bed temp.bed
+
+        rm temp.bed
+
+        done
+        """
+
+rule blastx_of_CNS:
+    input:
+        expand("{folder_name}/{linking_phastcons}_filtered.fa",
+        folder_name=config["get_fast_seqs_of_CNS"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0],
+        "viridiplantae.txids" # (using nbci_blast+) get_species_taxids.sh -t 33090 > viridiplantae.txids
+    output:
+        expand("{folder_name}/{linking_phastcons}_filtered.txt",
+        folder_name=config["get_fast_seqs_of_CNS"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        max_target_seqs=config["blastx_of_CNS"]["max_target_seqs"],
+        max_hsps=config["blastx_of_CNS"]["max_hsps"],
+        evalue=config["blastx_of_CNS"]["evalue"],
+        num_threads=config["blastx_of_CNS"]["num_threads"],
+        folder_name=config["get_fast_seqs_of_CNS"]["folder_name"]
+    shell:
+        """
+        # Extract the taxids of all species in the viridiplantae, so they can be used to limit the blast search
+        # (using nbci_blast+) get_species_taxids.sh -t 33090 > viridiplantae.txids
+
+        for sample in {input}
+        do
+
+        base=$(basename $sample ".fa")
+
+        blastx -query $sample -db ${{BLASTDB}}/nr -taxidlist viridiplantae.txids -max_target_seqs {params.max_target_seqs} -max_hsps {params.max_hsps} -evalue {params.evalue} -outfmt '7 qseqid sseqid length qlen slen qstart qend sstart send evalue' -out {params.folder_name}/${{base}}.txt -num_threads {params.num_threads}
+
+        done
+        """
+
+rule remove_CNS_with_blast_hits: # output 5199
+    input:
+        expand("{folder_name}/{linking_phastcons}_filtered.bed",
+        folder_name=config["removing_mito_and_cloro"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0],
+        expand("{folder_name}/{linking_phastcons}_filtered.txt",
+        folder_name=config["get_fast_seqs_of_CNS"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    params:
+        evalue=config["remove_CNS_with_blast_hits"]["evalue"],
+        lenght=config["remove_CNS_with_blast_hits"]["lenght"]
+    output:
+        expand("{folder_name}/{linking_phastcons}_final.bed",
+        folder_name=config["remove_CNS_with_blast_hits"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    shell:
+        """
+        FILES=({input})
+        OUT=({output})
+        len=${{#FILES[@]}}
+
+        for (( i=0; i<=$(( $(($len - $(($len / 2)))) - 1 )); i++ ))
+        do
+
+        grep -v "#" ${{FILES[$(($i + $((len / 2)) ))]}} > tmp.txt
+
+        Rscript removes_cns_with_blast_hits.R --length {params.lenght} --evalue {params.evalue} --out1 ${{OUT[$i]}} ${{FILES[$i]}} tmp.txt
+
+        rm tmp.txt
+
+        done
+
+        """
+
+rule chr_sizes:
+    input:
+        expand("{fasta}", fasta=config["necessary_inputs"]["tools"]),
+        expand("{ref_fasta}.fasta", ref_fasta=config["necessary_inputs"]["reference_genome"])
+    output:
+        "reference_genome.sizes"
+    shell:
+        """
+        chmod a+x {input[0]}
+        chmod a+x {input[1]}
+
+        ln -s {input[2]} ./referenge_genome.fa
+
+        samtools faidx ./referenge_genome.fa
+        cut -f1-2 *.fai > {output[0]}
+
+        """
+
+rule converts_to_2bit:
+    input:
+        expand("{genome_dir}{fasta}.fna",
+        genome_dir=config["necessary_inputs"]["genome_dir"],         fasta=config["necessary_inputs"]["genomes"]),
+        expand("{ref_fasta}.fasta", ref_fasta=config["necessary_inputs"]["reference_genome"])
+    output:
+        expand("species/{fasta}.2bit", fasta=config["necessary_inputs"]["genomes"])
+    shell:
+        """
+
+        for i in {input}
+        do
+
+        base=$(basename $i .fna)
+
+            faToTwoBit $i species/${{base}}.2bit
+
+        done
+
+        """
+
+rule adds_I_row:
+    input:
+        expand("{maf_path}{maf}.maf",
+        maf_path=config["necessary_inputs"]["maf_path"],
+        maf=config["necessary_inputs"]["maf"]),
+        "species/Medicago_truncatula_masked.2bit"
+    output:
+        expand("{maf_path}{maf}_with_I_row.maf",
+        maf_path=config["necessary_inputs"]["maf_path"],
+        maf=config["necessary_inputs"]["maf"])
+    shell:
+        """
+        mafSplit -byTarget dummy.bed -useFullSequenceName maf/ {input[0]}
+
+        for i in `ls maf/*.maf`
+        do
+        base=$(basename $i .maf)
+
+            mafAddIRows $i {input[1]} maf/${{base}}_with_I_rows.maf
+
+        done
+
+        ## Then join it all in an unique file again
+        cat maf/Mtrun*_with_I_rows.maf > {output[0]}
+
+        # Clean intermediate files
+        rm -r maf/
+
+        """
+
+rule maf_indexing:
+    input:
+        expand("{maf_path}{maf}_with_I_row.maf",
+        maf_path=config["necessary_inputs"]["maf_path"],
+        maf=config["necessary_inputs"]["maf"])
+    output:
+        expand("{maf}_with_I_row.bb",
+        maf=config["necessary_inputs"]["maf"]),
+        expand("{maf}_with_I_row.maf",
+        maf=config["necessary_inputs"]["maf"])
+    shell:
+        """
+        ./mafIndex {input[0]} {output[0]} -chromSizes=reference_genome.sizes
+
+        ln -s {input[0]} ./{output[1]}
+        """
+
+rule dist_to_genes_medicago:
+    input:
+        expand("{gtf_file}", gtf_file=config["gtf_file"]),
+        expand("{folder_name}/{linking_phastcons}_final.bed",
+        folder_name=config["remove_CNS_with_blast_hits"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0]
+    output:
+        expand("{out}", out=config["dist_to_genes_medicago"]["output"])[0],
+        expand("{folder_name}/both_strand_{linking_phastcons}_final.bed",
+        folder_name=config["remove_CNS_with_blast_hits"]["folder_name"],
+        linking_phastcons=config["linking_phastcons"]["score_files"])[0],
+        expand("{out}", out=config["dist_to_genes_medicago"]["output"])[1]
+    shell:
+        """
+        Rscript get_translation_start_and_end_point.R --out1 {output[0]} {input[0]}
+
+        bedtools sort -i {output[0]} > sorted_tmp.bed
+        mv sorted_tmp.bed {output[0]}
+
+        # Since the CNS is the same in both strands and bedtoos close will use the strand info.
+
+        awk '{{print $0, ".", "+"}}' OFS='\t' final_CNS/all_Nfix.all_final.bed > cns_tmp.bed
+
+        cat cns_tmp.bed > cns_tmp2.bed
+        sed -i 's/+/-/g' cns_tmp2.bed
+        cat cns_tmp.bed cns_tmp2.bed > tmp2.bed
+
+        bedtools sort -i tmp2.bed > {output[1]}
+
+        rm cns_tmp.bed tmp2.bed
+
+        bedtools closest -s -D b -t all -a {output[1]} -b {output[0]} > {output[2]}
+
+        """
+
+rule extract_CNS_coord_in_soybean:
+    input:
+        "final_CNS/all_Nfix.all_final.bed",
+        "all_Nfix.sing_with_I_row.bb"
+    params:
+        prefix_name="coordinates",
+        SPECIES="Glycine_max"
+    output:
+        "coordinates.tst"
+    shell:
+        """
+
+        BED_NAME={input[0]}
+        genome_index_file={input[1]}
+        N_OF_CNS=$(awk 'END{{print NR}}' {input[0]})
+        prefix_name={params.prefix_name}
+        SPECIES={params.SPECIES}
+
+        # Run the loop of runs for this task.
+        for (( run=1; run <= $N_OF_CNS; run++ )); do
+
+            # Extracts the gff feature coordinates
+            sed -n ${{run}}p $BED_NAME > ${{prefix_name}}_${{run}}_ggsub.bed
+
+            # Reads the gff file and execute fasta generation for each of the features
+            while IFS=$'\t' read -r chr start end name score strand
+            do
+
+                ./mafExtract $genome_index_file ${{name}}.maf -regionList=${{prefix_name}}_${{run}}_ggsub.bed -leaveEdgeMeta
+
+                if [[ $(wc -l <${{name}}.maf | awk '{{print $1}}') -ge 2 ]]
+                then
+
+                # all genomes must be in the folder species
+                sed -i 's/Phaseolus_coccineus_subsp._coccineus/Phaseolus_coccineus/g' ${{name}}.maf
+
+                perl Maf2SpanningSeq_PRANK.perl ${{name}}.maf prank_${{name}} -twoBitPath=species | sed '/>/,+1 d' | sed '/total/ d' | grep $SPECIES | awk '{{ print $7}}' | sed 's/$/ '$name'/' >> {output[0]}
+
+                fi
+
+                rm ${{name}}.maf
+
+            done < ${{prefix_name}}_${{run}}_ggsub.bed
+
+            rm ${{prefix_name}}_${{run}}_ggsub.bed
+
+        done
+
+        #rm run*.bed
+        #rm BDB_file
+
+        """
+
+rule CNS_dist_to_CDS_soybean:
+    input:
+        "coordinates.tst",
+        "Glycine_max_CDS_TSS_to_TSE.bed"
+    output:
+        "CNS_coord_in_soybean.bed",
+        "CNS_dist_to_CDS_soybean.tst",
+
+    shell:
+        """
+        Rscript convert_cns_coords_to_bed.R --out1 {output[0]} {input[0]}
+
+        bedtools sort -i {output[0]} > tmp.bed
+        mv tmp.bed {output[0]}
+
+        bedtools sort -i {input[1]} > tmp.bed
+        mv tmp.bed {input[1]}
+
+        bedtools closest -s -D b -t all -a {output[0]} -b {input[1]} > {output[1]}
+
+        """
+
+rule classify_CNS:
+    input:
+        expand("{out}", out=config["dist_to_genes_medicago"]["output"])[1],
+        "CNS_dist_to_CDS_soybean.tst"
+    output:
+        "Mtrun_unclassified_CNS.bed",
+        "Mtrun_classified_CNS.bed",
+        "Soybean_unclassified_CNS.bed",
+        "Soybean_classified_CNS.bed",
+    shell:
+        """
+        Rscript classify_CNS_by_dist.R --out1 {output[0]} --out2 {output[1]} {input[0]}
+
+        Rscript classify_CNS_by_dist_soybean.R --out1 {output[2]} --out2 {output[3]} {input[1]}
+
+        """
+
+rule sankey_plot:
+    input:
+        "Mtrun_classified_CNS.bed",
+        "Mtrun_unclassified_CNS.bed",
+        "Soybean_classified_CNS.bed",
+        "Soybean_unclassified_CNS.bed"
+    output:
+        "class_organized_medicago.txt",
+        "class_organized_Soybean.txt",
+        "ALL_CNS_classification_MED_vs_SOY.tst",
+    shell:
+        "Rscript sankey_plot.R"
+
+rule Gathering_ortho:
+    input:
+        "integrative_orthology.ORTHO.csv",
+    output:
+        "integrative_orthology.ORTHO_Medicago.csv"
+    shell:
+        """
+
+        # Gathering orthologous
+        sed -i 's/GLYMA_/Glyma./g' {input[0]}
+
+        ## Splitting plaza file to reduce the size. Here, taking only the entrances that are refers to Medicago.
+        awk '{{if ($2 == "mtr") print $0;}}' {input[0]} > {output[0]}
+
+        """
+
+rule orthologous_evaluation:
+    input:
+        "Mtrun_classified_CNS.bed",
+        "Soybean_classified_CNS.bed",
+        "soybean_genes_names.tsv",
+        "MtrunA17r5.0-ANR-EGN-r1.7.vs.JCVI-Mt4.0v2-gene.tsv",
+        "integrative_orthology.ORTHO_Medicago.csv",
+        "input/phastcons/all_Nfix.all.bed"
+    output:
+        "Comparison_Med_Soybean_all_ORTHOLOGOUS_ORTHO_unfiltered.tst",
+        "CNS_classified_orthogroup_but_unfiltered_ORTHO.tst",
+        "selected_CNS_same_orthogroup.bed"
+    shell:
+        """
+        Rscript orthologous_soy_med.R --out1 {output[0]} --out2 {output[1]} --out3 {output[2]} {input[0]} {input[1]} {input[2]} {input[3]} {input[4]} {input[5]}
+        """
+
+rule heatmaps_unfiltered_CNS:
+    input:
+        "class_organized_medicago.txt",
+        "input/ATAC_signal/joined_uniform_globalMeanLogQNorm_RZM.txt",
+        "Mtrun_classified_CNS.bed",
+        "gene_expression_tpm_qnorm.txt"
+    output:
+        "gene_expression_tpm_qnorm_zeromeaned.tst",
+        "all_CNS_heatmap.svg",
+        "all_CNS_heatmap_upstream.svg",
+        "all_CNS_heatmap_intronic.svg",
+        "all_CNS_heatmap_downstream.svg",
+        "all_CNS_heatmap_distal_upstream.svg",
+        "all_CNS_correlation.tst",
+        "correlation_significance_all_CNS.svg",
+        "correlation_significance_upstream.svg",
+        "correlation_significance_downstream_all.svg",
+        "correlation_significance_distal_upstream_all.svg",
+        "heatmap_sig_corr_positive_upstream.svg",
+        "heatmap_sig_corr_positive_downstream.svg",
+        "heatmap_sig_corr_positive_distal_upstream.svg",
+        "heatmap_sig_corr_negative_upstream.svg",
+        "heatmap_sig_corr_negative_downstream.svg",
+        "heatmap_sig_corr_negative_distal_upstream.svg"
+    shell:
+        """
+
+            Rscript complex_heat_map_CNS.R --out1 {output[0]} --out2 {output[1]} --out3 {output[2]} --out4 {output[3]} --out5 {output[4]} --out6 {output[5]} --out7 {output[6]} --out8 {output[7]} --out9 {output[8]} --out10 {output[9]} --out11 {output[10]} --out12 {output[11]} --out13 {output[12]} --out14 {output[13]} --out15 {output[14]} --out16 {output[15]} --out17 {output[16]} {input[0]} {input[1]} {input[2]} {input[3]}
+
+         """
+
+rule cns_filtering:
+    input:
+        "input/phastcons/outside.all.bed",
+        "selected_CNS_same_orthogroup.bed"
+    output:
+        "nfix_cns/nfix_all_Nfix.all_final.bed"
+    shell:
+        """
+        bedtools intersect -v -a {input[1]} -b {input[0]} > tmp.bed
+        bedtools sort -i tmp.bed > {output[0]}
+
+        """
+
+rule heatmaps_filtered_CNS:
+    input:
+        "class_organized_medicago.txt",
+        "input/ATAC_signal/joined_uniform_globalMeanLogQNorm_RZM.txt",
+        "Mtrun_classified_CNS.bed",
+        "gene_expression_tpm_qnorm_zeromeaned.tst",
+        "nfix_cns/nfix_all_Nfix.all_final.bed"
+    output:
+        "nfix_all_CNS_heatmap.svg",
+        "nfix_all_CNS_heatmap_upstream.svg",
+        "nfix_all_CNS_heatmap_intronic.svg",
+        "nfix_all_CNS_heatmap_downstream.svg",
+        "nfix_all_CNS_heatmap_distal_upstream.svg",
+        "nfix_correlation_significance_all_CNS.svg",
+        "nfix_correlation_significance_upstream.svg",
+        "nfix_correlation_significance_downstream_all.svg",
+        "nfix_correlation_significance_distal_upstream_all.svg",
+        "nfix_heatmap_sig_corr_positive_upstream.svg",
+        "nfix_heatmap_sig_corr_positive_downstream.svg",
+        "nfix_heatmap_sig_corr_positive_distal_upstream.svg",
+        "nfix_heatmap_sig_corr_negative_upstream.svg",
+        "nfix_heatmap_sig_corr_negative_downstream.svg",
+        "nfix_heatmap_sig_corr_negative_distal_upstream.svg"
+    shell:
+        """
+
+            Rscript nfix_complex_heat_map_CNS.R --out1 {output[0]} --out2 {output[1]} --out3 {output[2]} --out4 {output[3]} --out5 {output[4]} --out6 {output[5]} --out7 {output[6]} --out8 {output[7]} --out9 {output[8]} --out10 {output[9]} --out11 {output[10]} --out12 {output[11]} --out13 {output[12]} --out14 {output[13]} --out15 {output[14]} {input[0]} {input[1]} {input[2]} {input[3]} {input[4]}
+
+        """
+
+rule heatmaps_filtered_CNS_nod_genes:
+    input:
+        "class_organized_medicago.txt",
+        "nfix_cns/nfix_all_Nfix.all_final.bed",
+        "nodulation_genes_medicago.csv",
+        "input/ATAC_signal/joined_uniform_globalMeanLogQNorm_RZM.txt",
+        "Mtrun_classified_CNS.bed",
+        "gene_expression_tpm_qnorm_zeromeaned.tst",
+        "all_CNS_correlation.tst",
+    output:
+        "nod_genes_ATCseq_RNAseq.svg"
+
+    shell:
+        """
+
+            Rscript nod_complex_heat_map_CNS.R
+
+        """

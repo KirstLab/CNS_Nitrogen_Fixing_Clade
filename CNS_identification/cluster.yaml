@@ -1,0 +1,107 @@
+__default__:
+    cluster: slurm
+    ntasks: 1
+    n_of_threads: 1
+    mem: 10gb
+    time: 12:00:00
+    qos: <qos name> # Needs to ne adjusted
+    output: snakemake_%j.out
+    error: snakemake_%j.err
+    time: 02:00:00
+    email_user: <users email> # Needs to ne adjusted
+    email_type: all
+
+all:
+    output: all_%j.out
+    error: all_%j.err
+
+linking_phastcons:
+    output: linking_phastcons_%j.out
+    error: linking_phastcons_%j.err
+
+removing_overlaps_CDS:
+    removing_overlaps_CDS: removing_overlaps_CDS_%j.out
+    removing_overlaps_CDS: removing_overlaps_CDS_%j.err
+
+removing_overlaps_ncRNAs:
+    output: removing_overlaps_ncRNAs_%j.out
+    error: removing_overlaps_ncRNAs_%j.err
+
+removing_overlaps_TEs:
+    output: removing_overlaps_TEs_%j.out
+    error: removing_overlaps_TEs_%j.err
+
+removing_mito_and_cloro:
+    output: removing_mito_and_cloro_%j.out
+    error: removing_mito_and_cloro_%j.err
+
+get_fast_seqs_of_CNS:
+    output: get_fast_seqs_of_CNS_%j.out
+    error: get_fast_seqs_of_CNS_%j.err
+
+blastx_of_CNS:
+    output: blastx_of_CNS_%j.out
+    error: blastx_of_CNS_%j.err
+    n_of_threads: 24
+    mem: 60gb
+    time: 3-23
+    qos: kirst-b
+
+remove_CNS_with_blast_hits:
+    output: remove_CNS_with_blast_hits_%j.out
+    error: remove_CNS_with_blast_hits_%j.err
+
+chr_sizes:
+    output: chr_sizes_%j.out
+    error: chr_sizes_%j.err
+
+converts_to_2bit:
+    output: converts_to_2bit_%j.out
+    error: converts_to_2bit_%j.err
+
+adds_I_row:
+    output: adds_I_row_%j.out
+    error: adds_I_row_%j.err
+
+maf_indexing:
+    output: maf_indexing_%j.out
+    error: maf_indexing_%j.err
+
+necessary_inputs:
+    tools:
+        [
+    "mafIndex", #https://github.com/hillerlab/CESAR2.0/raw/master/tools/mafIndex
+    "mafExtract" #https://github.com/hillerlab/CESAR2.0/raw/master/tools/mafExtract
+        ]
+    trees:
+        [
+    "forw_gen_tree_18_species.tree", # without ancestors
+    forw_gen_tree_w_ancestors_18_species.nh
+        ]
+    reference_genome: "Medicago_truncatula_masked"
+    genomes: # Masked with tantan
+        [
+    "Betula_pendula_masked",
+    "Casuarina_glauca_masked",
+    "Castanea_mollissima_masked",
+    "Benincasa_hispida_masked",
+    "Datisca_glomerata_masked",
+    "Humulus_lupulus_masked",
+    "Parasponia_andersonii_masked",
+    "Ziziphus_jujuba_masked",
+    "Ochetophila_trinervis_masked",
+    "Purshia_tridentata_masked",
+    "Malus_baccata_masked",
+    "Geum_urbanum_masked",
+    "Prosopis_alba_masked",
+    "Glycine_max_masked",
+    "Vicia_faba_masked",
+    "Lotus_japonicus_masked",
+    "Lupinus_angustifolius_masked",
+    "Manihot_esculenta_masked"
+        ]
+    genome_dir: /orange/kirst/wendellpereira/forward_genomics/genomes/masked_genomes/
+    maf: "nfix_forwd_genomics_subset" # without .maf
+    n_of_species_in_maf: 18
+    features: MtrunA17r5.0.r1.7_sorted_renamed.bed
+    phenotypes: nfix_phenotypes_18_species.tst
