@@ -38,7 +38,7 @@ The next step is to apply phastCons to the full set of multiple alignment data a
 
 Which produces two output model files, *prefix*.phastCons_v2.tree.cons.mod and *prefix*.phastCons_v2.tree.noncons.mod
   
-Here the for loop over the variable G is again for each species groups for which the analysis is being applied. Note in the .sh script for this step there are two commands applied to the initial maf file for each such species group:
+Here the for loop over the variable G is again for each species group for which the analysis is being applied. Note in the .sh script lines for this step there are two commands applied to the initial maf file for each such species group:
   
 python ParseMAF.py *original-maf* *genome-.fai* > *converted maf*
 mafSorter --maf *converted-maf* --seq Medicago_truncatula_masked.All > *converted-and-sorted-maf*
@@ -51,7 +51,7 @@ This and the phyloFit step are the two most computationally intensive steps and 
   
 # Step 3: Calling conserved regions from the genome-wide models of conserved and non-conserved states
   
-The two models learned from the genome-wide multiple alignment data (<prefix>.phastCons_v2.tree.cons.mod and <prefix>.phastCons_v2.tree.noncons.mod) are then finally used in a final step, which is to call conserved regions with phastCons using these inferred models. Per the mentioned concern about requiring only one sequence to be represented at a time, this is done for the multiply aligned regions on each Medicago v5 genome chromosome at a time. Hence the .sh will show a loop over both species group (G) and chromosome (C). In this step regions are written out with the following usage with PhastCons:
+The two models learned from the genome-wide multiple alignment data (<prefix>.phastCons_v2.tree.cons.mod and <prefix>.phastCons_v2.tree.noncons.mod) are then finally used in a final step, which is to call conserved regions with phastCons using these inferred models. Per the mentioned concern about requiring only one sequence to be represented at a time, this is done for the multiply aligned regions on each Medicago v5 genome chromosome at a time. Hence the .sh will show a loop over both species groups (G) and chromosome (C). In this step regions are written out with the following usage with PhastCons:
   
  ./phastCons --most-conserved *path*/*group.chromosome*.bed -seq *chromosome* *maf-for-chromosome*  *conserved-model*,*non-conserved-model* > *output-.wig-file-of conservation-scores*
   
