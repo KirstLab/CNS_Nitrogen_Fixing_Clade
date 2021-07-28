@@ -34,14 +34,14 @@ Here the for loop over the variable G is for the species groups for which the an
   
 The next step is to apply phastCons to the full set of multiple alignment data as follows:
   
-./phastCons --estimate-trees <prefix>.phastCons_v2.tree <sorted/converted .maf> <prefix>.background.phylofit.mod
+./phastCons --estimate-trees *prefix>.phastCons_v2.tree* *sorted, converted .maf* *prefix.background.phylofit.mod*
 
-Which produces two output model files, <prefix>.phastCons_v2.tree.cons.mod and <prefix>.phastCons_v2.tree.noncons.mod
+Which produces two output model files, *prefix>.phastCons_v2.tree.cons.mod and <prefix>.phastCons_v2.tree.noncons.mod
   
 Here the for loop over the variable G is again for each species groups for which the analysis is being applied. Note in the .sh script for this step there are two commands applied to the initial maf file for each such species group:
   
-python ParseMAF.py <original maf> <genome .fai> > <converted maf>
-mafSorter --maf <converted maf> --seq Medicago_truncatula_masked.All > <converted and sorted maf>
+python ParseMAF.py *original-maf* *genome-.fai* > *converted maf*
+mafSorter --maf *converted-maf* --seq Medicago_truncatula_masked.All > *converted-and-sorted-maf*
   
 The ParseMAF.py script takes the original maf data and converts the Medicago source species region coordinates into coordinates relative to the full genome and with a single sequence name, "Medicago_truncatula_masked.All." This is perhaps unintiutive and not by design, but was made necessary because the PhastCons software was giving errors if multiple sequences appeared for the source species, and hence this was necessary to convert the multiple alignment data into a format that would include all of the data, and not only those alignment blocks associated with a single chromosome of the Medicago geneom. Inshort this enabled training the phastCons conserved and non-conserved models on the fully genome-wide set of data, and not a subset of the data. The ParseMAF.py script does this convesion with help from input .fai data giving the lengths of chromosomes in the v5 genome, hence the inclusion of MtrunA17r5.0-20161119-ANR.fasta.fai.
   
