@@ -55,6 +55,6 @@ The two models learned from the genome-wide multiple alignment data (<prefix>.ph
   
  ./phastCons --most-conserved <path>/<group>.<chromosome>.bed -seq <chromosome> <maf for chromosome regions> <conserved model>,<non-conserved model> > <output .wig file of conservation scores>
   
- $ Step 4: Selecting regions 5 bp or greater in size
+# Step 4: Selecting regions 5 bp or greater in size
   
  Finally, from the .bed files of conserved regions called for each Medicago genome chromsome, we select those regions 5 bp or larger and combine them into a single .bed file.  
