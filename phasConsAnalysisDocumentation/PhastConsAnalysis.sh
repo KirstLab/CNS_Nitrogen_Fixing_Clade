@@ -20,8 +20,6 @@ then
     rm commands_PhyloFit.txt
 fi
 
-rm commands_phyloFit.txt
-
 for G in all_Nfix outside
 do
     printf "${exe} -t all_genomes.tre -o ${OUTDIR1}/{G}.background.phyloFit ${DATADIR}/${MAF[$G]}\n" >> commands_PhyloFit.txt
@@ -29,8 +27,7 @@ done
 
 #running multiple processes in parallel with xargs
 cat commands_phyloFit.txt | xargs -d'\n' --max-procs=4 -I CMD bash -c CMD
-# can other wise issue the commands separately if tractable. 
-
+# can otherwise issue the commands separately if tractable. 
 
 #Step 2: application of phastCons to learn full model of conserved and diverged states using the -estimate tree option. 
 
@@ -41,7 +38,7 @@ fi
 
 export exePC=../../programs/PHAST_pipeline/phast/bin/phastCons
 
-FAI=MtrunA17r5.0-20161119-ANR.fasta.fai
+export FAI=MtrunA17r5.0-20161119-ANR.fasta.fai
 
 for G in all_Nfix outside
 do
@@ -57,7 +54,7 @@ do
 done
 #run the phastCons commands to learn genome-wide models with PhastCons
 cat commandsPC.txt | xargs -d'\n' --max-procs=2 -I CMD bash -c CMD
-#if running a small number this could also be issued seaprately. 
+#if running a small number this could also be issued separately. 
 #the output of each command will include an evolutionary model for a conserved and non-conserved state, both with prefixes ${outdir}/models/${G}.phastCons_v2.tree and file name endings of .cons.mod and .noncons.mod, respectively.
 
 #Step 3: Run PhastCons using the learned models to call conserved regions for each chromosome.
