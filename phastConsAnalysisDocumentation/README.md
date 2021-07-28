@@ -11,7 +11,7 @@ Genome Res. 2014 Dec;24(12):2077-89. doi: 10.1101/gr.174920.114. Epub 2014 Oct 1
 
 We utilize a species tree and multiple slignmetn data set as input and obtain a model of sequence evolution with a usage as follows:
 
-./phyloFit -t <tree> -o <prefix>.background.phylofit <maf>
+./phyloFit -t *tree* -o *prefix*.background.phylofit *maf*
   
 This produces a model of sequence evolution with a file name <prefix>.background.phyloFit.mod, with the following format:
   
