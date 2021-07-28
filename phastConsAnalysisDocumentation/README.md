@@ -57,4 +57,4 @@ The two models learned from the genome-wide multiple alignment data (<prefix>.ph
   
 # Step 4: Selecting regions 5 bp or greater in size
   
- Finally, from the .bed files of conserved regions called for each Medicago genome chromsome, we select those regions 5 bp or larger and combine them into a single .bed file.  
+ Finally, from the .bed files of conserved regions called for each Medicago genome chromsome, we select those regions 5 bp or larger and combine them into a single .bed file as shown in the .sh script.
