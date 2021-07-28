@@ -22,7 +22,7 @@ fi
 
 for G in all_Nfix outside
 do
-    printf "${exe} -t all_genomes.tre -o ${OUTDIR1}/{G}.background.phyloFit ${DATADIR}/${MAF[$G]}\n" >> commands_PhyloFit.txt
+    printf "${exe} -t ${TREE[$G]} -o ${OUTDIR1}/{G}.background.phyloFit ${DATADIR}/${MAF[$G]}\n" >> commands_PhyloFit.txt
 done
 
 #running multiple processes in parallel with xargs
@@ -36,6 +36,8 @@ then
     rm commandsPC.txt
 fi
 
+export OUTDIR=../../results/sequence_analysis/phastCons/
+
 export exePC=../../programs/PHAST_pipeline/phast/bin/phastCons
 
 export FAI=MtrunA17r5.0-20161119-ANR.fasta.fai
@@ -45,11 +47,11 @@ do
 	#convert input maf file in specific way: change the coodinates and naming of the separate Medicago chromosomes in order to represent the entire multiple alignment data with a single source sequence name, to prepare a model that is based on the genome wide set of multiple as much as possible. 
 	#This is per the experience that otherwise it wasn't possible to obtain a fully genomewide model because multiple sequence names were producing an errors from the phastCons software.
 	#The parseMAF.py script reorganizes the source species sequence names and coordinates relative to the full Medicago genome, allowing the complete multiple alignment to be used for the model.
-	python ParseMAF.py ${datadir}/${MAF[$G]} ${FAI} > ${outdir}/training_maf/${G}.converted.maf 
+	python ParseMAF.py ${DATADIR}/${MAF[$G]} ${FAI} > ${OUTDIR}/training_maf/${G}.converted.maf 
 	#With the converted sequence name and coordinates for Medicago implemented, apply the mafTools sorter tool to make sure the blocks are coordinate-sorted. 
-    	mafSorter --maf ${outdir}/training_maf/${G}.converted.maf --seq Medicago_truncatula_masked.All > ${outdir}/training_maf/${G}.converted.sorted.maf
+    	mafSorter --maf ${OUTDIR}/training_maf/${G}.converted.maf --seq Medicago_truncatula_masked.All > ${OUTDIR}/training_maf/${G}.converted.sorted.maf
 	#List the commands to be issued to learn the "genomewide" models 
-	printf "${exePC} --estimate-trees ${outdir}/models/${G}.phastCons_v2.tree ${outdir}/training_maf/${G}.converted.sorted.maf ${G}.background.phyloFit.mod > ${outdir}/model_training_wig_results/${G}.phastCons_v2.scores.wig\n" >> commandsPC.txt
+	printf "${exePC} --estimate-trees ${OUTDIR}/models/${G}.phastCons_v2.tree ${OUTDIR}/training_maf/${G}.converted.sorted.maf ${G}.background.phyloFit.mod > ${outdir}/model_training_wig_results/${G}.phastCons_v2.scores.wig\n" >> commandsPC.txt
 
 done
 #run the phastCons commands to learn genome-wide models with PhastCons
