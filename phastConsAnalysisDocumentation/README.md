@@ -11,7 +11,7 @@ Genome Res. 2014 Dec;24(12):2077-89. doi: 10.1101/gr.174920.114. Epub 2014 Oct 1
 
 We utilize a species tree and multiple slignmetn data set as input and obtain a model of sequence evolution with a usage as follows:
 
-./phyloFit -t *tree* -o *prefix*.background.phylofit *maf*
+./phyloFit -t *tree-file* -o *prefix*.background.phylofit *maf-file*
   
 This produces a model of sequence evolution with a file name <prefix>.background.phyloFit.mod, with the following format:
   
@@ -34,9 +34,9 @@ Here the for loop over the variable G is for the species groups for which the an
   
 The next step is to apply phastCons to the full set of multiple alignment data as follows:
   
-./phastCons --estimate-trees *prefix>.phastCons_v2.tree* *sorted, converted .maf* *prefix.background.phylofit.mod*
+./phastCons --estimate-trees *prefix.phastCons_v2.tree* *sorted-converted-.maf* *prefix.background.phylofit.mod*
 
-Which produces two output model files, *prefix>.phastCons_v2.tree.cons.mod and <prefix>.phastCons_v2.tree.noncons.mod
+Which produces two output model files, *prefix*.phastCons_v2.tree.cons.mod and *prefix*.phastCons_v2.tree.noncons.mod
   
 Here the for loop over the variable G is again for each species groups for which the analysis is being applied. Note in the .sh script for this step there are two commands applied to the initial maf file for each such species group:
   
@@ -53,7 +53,7 @@ This and the phyloFit step are the two most computationally intensive steps and 
   
 The two models learned from the genome-wide multiple alignment data (<prefix>.phastCons_v2.tree.cons.mod and <prefix>.phastCons_v2.tree.noncons.mod) are then finally used in a final step, which is to call conserved regions with phastCons using these inferred models. Per the mentioned concern about requiring only one sequence to be represented at a time, this is done for the multiply aligned regions on each Medicago v5 genome chromosome at a time. Hence the .sh will show a loop over both species group (G) and chromosome (C). In this step regions are written out with the following usage with PhastCons:
   
- ./phastCons --most-conserved <path>/<group>.<chromosome>.bed -seq <chromosome> <maf for chromosome regions> <conserved model>,<non-conserved model> > <output .wig file of conservation scores>
+ ./phastCons --most-conserved *path*/*group.chromosome*.bed -seq *chromosome* *maf-for-chromosome*  *conserved-model*,*non-conserved-model* > *output-.wig-file-of conservation-scores*
   
 # Step 4: Selecting regions 5 bp or greater in size
   
