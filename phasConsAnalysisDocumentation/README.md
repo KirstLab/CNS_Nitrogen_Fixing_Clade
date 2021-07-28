@@ -1,4 +1,4 @@
-#Summary of the Phast pipeline application
+# Summary of the Phast pipeline application
 
 Included are the primary steps for applying the phastCons analysis as implemented for the N-fixing conserved element analysis. Primarilly RunPhastConsAnalysis.sh illustrates three primary steps of this analysis. 
 
@@ -7,5 +7,5 @@ Here we've utilized the v1_5 distribution of PHAST pipeline software (http://com
 Supporting tools from the maf tool set were also used as indicated in RunPhastConsAnalysis.s, available from https://github.com/dentearl/mafTools. Citation:
 Genome Res. 2014 Dec;24(12):2077-89. doi: 10.1101/gr.174920.114. Epub 2014 Oct 1. Alignathon: a competitive assessment of whole-genome alignment methods.
 
-#Step 1: Application of phyloFit to infer a general model of sequence evolution
+# Step 1: Application of phyloFit to infer a general model of sequence evolution
 
