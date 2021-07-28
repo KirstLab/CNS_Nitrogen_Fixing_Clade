@@ -1,11 +1,11 @@
 # Summary of the Phast pipeline application
 
-Included are the primary steps for applying the phastCons analysis as implemented for the N-fixing conserved element analysis. Primarilly RunPhastConsAnalysis.sh illustrates three primary steps of this analysis. 
+Included are the primary steps for applying the phastCons analysis as implemented for the N-fixing conserved element analysis. Primarilly RunPhastConsAnalysis.sh illustrates three primary steps of this analysis but would not trivially run verbatim in other working/computing environments (notably updating the indicated paths to the necessary software would be necessary).
 
-Here we've utilized the v1_5 distribution of PHAST pipeline software (http://compgen.cshl.edu/phast/downloads.php) and a piece of dependency software CLA Pack v 3.2 to compile the PHAST software binaries, specifically phyloFit and phastCons that  we've utilized. Also see https://github.com/CshlSiepelLab/phast for more infromation. Both are included as .tgz files in this directory for completeness. 
+We've utilized the v1_5 distribution of PHAST pipeline software (http://compgen.cshl.edu/phast/downloads.php) and a piece of dependency software, CLA Pack v 3.2, to compile the PHAST software binaries. It is specifically phyloFit and phastCons that we've used. See https://github.com/CshlSiepelLab/phast for more infromation. Both pieces of software are included as source code .tgz files in this directory (phast_v1_5.tgz and clapack.tgz) for completeness. 
 
 Supporting tools from the maf tool set were also used as indicated in RunPhastConsAnalysis.s, available from https://github.com/dentearl/mafTools. Citation:
-Genome Res. 2014 Dec;24(12):2077-89. doi: 10.1101/gr.174920.114. Epub 2014 Oct 1. Alignathon: a competitive assessment of whole-genome alignment methods.
+Genome Res. 2014 Dec;24(12):2077-89. doi: 10.1101/gr.174920.114. Epub 2014 Oct 1. Alignathon: a competitive assessment of whole-genome alignment methods. The information at the gitHub site should be fairly clear on how to get it working. 
 
 # Step 1: Application of phyloFit to infer a general model of sequence evolution
 
@@ -38,7 +38,7 @@ The next step is to apply phastCons to the full set of multiple alignment data a
 
 Which produces two output model files, *prefix*.phastCons_v2.tree.cons.mod and *prefix*.phastCons_v2.tree.noncons.mod
   
-Here the for loop over the variable G is again for each species group for which the analysis is being applied. Note in the .sh script lines for this step there are two commands applied to the initial maf file for each such species group:
+Here the for loop over the variable G is again for each species group for which the analysis is being applied. Note also that in the .sh script lines for this step there are two commands applied to the initial .maf file for each species group analysis:
   
 python ParseMAF.py *original-maf* *genome-.fai* > *converted maf*
 mafSorter --maf *converted-maf* --seq Medicago_truncatula_masked.All > *converted-and-sorted-maf*
