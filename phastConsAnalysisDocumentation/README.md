@@ -30,6 +30,8 @@ TREE: (Vitis_vinifera_masked:0.0876077,((Eucalyptus_grandis_masked:0.239972,(Cit
   
 Here the for loop over the variable G is for the species groups for which the analysis is being applied. 
   
+Note: the tree input given has been the full species tree. This is because 1) the source species of Medicago is technically in the outside species set maf file, and 2) the species set in the tree will be correctly parsed down to the set consistently represented in the .maf data internally to phyloFit. This ensures the source species is always included from the multiple alignment data, even if not explicitly in every species set.
+  
 # Step 2: Estimate conserved and non-conserved sequence evolution models
   
 The next step is to apply phastCons to the full set of multiple alignment data as follows:
