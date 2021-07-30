@@ -34,7 +34,7 @@ The whole-genome alignments were implemented appling the [CNS pipeline](https://
 
 ## Usage (in progress)
 
-## Reference
+## Reference (in progress)
 <a id="1">[1]</a> Pereira WJ, Knaack S, Conde D, Chakraborty S, Folk RA, Triozzi PM, Balmant KM, Dervinis C, Schmidt HW, Jean-Michel A, Roy S, Kirst M. [Functional and comparative genomics reveals conserved noncoding sequences in the nitrogen-fixing clade](), *BioRxiv*, 2021.
 
 <a id="2">[2]</a> Frith, MC. [A new repeat-masking method enables specific detection of homologous sequences](https://academic.oup.com/nar/article/39/4/e23/1006710), *Nucleic Acids Research*, 2010.
