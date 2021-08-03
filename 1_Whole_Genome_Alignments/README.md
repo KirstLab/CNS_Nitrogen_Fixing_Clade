@@ -63,4 +63,4 @@ sbatch roast_commands_outgroup.sbatch
 ## References
 <a id="1">[1]</a> Frith, MC. [A new repeat-masking method enables specific detection of homologous sequences](https://academic.oup.com/nar/article/39/4/e23/1006710), *Nucleic Acids Research*, 2010.
 
-<a id="2">[2]</a> Liang P. et al. [Single-Base Resolution Map of Evolutionary Constraints and Annotation of Conserved Elements across Major Grass Genomes]("https://academic.oup.com/gbe/article/10/2/473/4824837"), *Genome Biology and Evolution*, 2018.
+<a id="2">[2]</a> Liang P. et al. [Single-Base Resolution Map of Evolutionary Constraints and Annotation of Conserved Elements across Major Grass Genomes](https://academic.oup.com/gbe/article/10/2/473/4824837), *Genome Biology and Evolution*, 2018.
