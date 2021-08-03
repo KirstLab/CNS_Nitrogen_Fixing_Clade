@@ -12,17 +12,27 @@
 
 pwd; hostname; date
 
-# Load required modules
+# Loads required modules
 module load tantan/13
 
-for sample in `ls *.fasta`
+# Removes softmasking of all genomes
+for sample in `ls *.fna`
 do
-base=$(basename $sample ".fasta")
+base=$(basename $sample ".fna")
 
-tantan $sample > ${base}_masked.fa
+awk '{if(/^[^>]/)$0=toupper($0);print $0}' $sample > ${base}_temp.fna
+mv ${base}_temp.fna ${base}.fna
 
 done
 
-# remove non-masked fasta files
-rm *.fasta
+# Masking of single repeats using tantan
+
+for sample in `ls *.fna`
+do
+base=$(basename $sample ".fna")
+
+tantan $sample > ${base}_masked.fna
+
+done
+
 date
