@@ -13,6 +13,6 @@
 pwd; hostname; date
 module load cnspipeline
 
-bash ./roast_commands_Nfixing.sh
+bash ./roast_commands_outgroup.sh
 
 date
