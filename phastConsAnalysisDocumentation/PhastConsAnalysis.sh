@@ -9,8 +9,8 @@ MAF[all_Nfix]=all_Nfix.sing.maf
 MAF[outside]=outside.sing.maf
 
 declare -A TREE
-TREE[all_Nfix]=Nfix_subset.tree
-TREE[outside]=outside_subset.tree
+TREE[all_Nfix]=all_genomes.tre #To be parsed to the correct species sub set represented in the respective .mafs in the PhyloFit analysis
+TREE[outside]=all_genomes.tre #The tree is also not used further as direct input to phastCons
 
 #output directory for fit models - variable for local analyses
 OUTDIR1=../../results/sequence_analysis/phastCons/phyloFit_tree_models
