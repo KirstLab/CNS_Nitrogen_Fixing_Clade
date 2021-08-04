@@ -67,41 +67,46 @@ maf_indexing:
     output: maf_indexing_%j.out
     error: maf_indexing_%j.err
 
-necessary_inputs:
-    tools:
-        [
-    "mafIndex", #https://github.com/hillerlab/CESAR2.0/raw/master/tools/mafIndex
-    "mafExtract" #https://github.com/hillerlab/CESAR2.0/raw/master/tools/mafExtract
-        ]
-    trees:
-        [
-    "forw_gen_tree_18_species.tree", # without ancestors
-    forw_gen_tree_w_ancestors_18_species.nh
-        ]
-    reference_genome: "Medicago_truncatula_masked"
-    genomes: # Masked with tantan
-        [
-    "Betula_pendula_masked",
-    "Casuarina_glauca_masked",
-    "Castanea_mollissima_masked",
-    "Benincasa_hispida_masked",
-    "Datisca_glomerata_masked",
-    "Humulus_lupulus_masked",
-    "Parasponia_andersonii_masked",
-    "Ziziphus_jujuba_masked",
-    "Ochetophila_trinervis_masked",
-    "Purshia_tridentata_masked",
-    "Malus_baccata_masked",
-    "Geum_urbanum_masked",
-    "Prosopis_alba_masked",
-    "Glycine_max_masked",
-    "Vicia_faba_masked",
-    "Lotus_japonicus_masked",
-    "Lupinus_angustifolius_masked",
-    "Manihot_esculenta_masked"
-        ]
-    genome_dir: /orange/kirst/wendellpereira/forward_genomics/genomes/masked_genomes/
-    maf: "nfix_forwd_genomics_subset" # without .maf
-    n_of_species_in_maf: 18
-    features: MtrunA17r5.0.r1.7_sorted_renamed.bed
-    phenotypes: nfix_phenotypes_18_species.tst
+dist_to_genes_medicago:
+    output: dist_to_genes_medicago_%j.out
+    error: dist_to_genes_medicago_%j.err
+
+extract_CNS_coord_in_soybean:
+    output: extract_CNS_coord_in_soybean_%j.out
+    error: extract_CNS_coord_in_soybean_%j.err
+
+CNS_dist_to_CDS_soybean:
+    output: CNS_dist_to_CDS_soybean_%j.out
+    error: CNS_dist_to_CDS_soybean_%j.err
+
+classify_CNS:
+    output: classify_CNS_%j.out
+    error: classify_CNS_%j.err
+
+sankey_plot:
+    output: sankey_plot_%j.out
+    error: sankey_plot_%j.err
+
+Gathering_ortho:
+    output: Gathering_ortho_%j.out
+    error: Gathering_ortho_%j.err
+
+orthologous_evaluation:
+    output: orthologous_evaluation_%j.out
+    error: orthologous_evaluation_%j.err
+
+heatmaps_unfiltered_CNS:
+    output: heatmaps_unfiltered_CNS_%j.out
+    error: heatmaps_unfiltered_CNS_%j.err
+
+cns_filtering:
+    output: cns_filtering_%j.out
+    error: cns_filtering_%j.err
+
+heatmaps_filtered_CNS:
+    output: heatmaps_filtered_CNS_%j.out
+    error: heatmaps_filtered_CNS_%j.err
+
+heatmaps_filtered_CNS_nod_genes:
+    output: heatmaps_filtered_CNS_nod_genes_%j.out
+    error: heatmaps_filtered_CNS_nod_genes_%j.err
