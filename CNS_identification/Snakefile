@@ -2,7 +2,7 @@
 ##
 ## Maintainer: Wendell J. Pereira (wendellpereira@ufl.edu)
 ##
-## This code is set to run in a slurmn environment and hard-coded to the samples used in the study. This section should be executed after the generation of the conserved regions by PhastCons.
+## This code is set to run in a slurmn environment and hard-coded to the samples used in the study.
 
 configfile: "config.yaml"
 run_in_slurm_env = True
@@ -12,11 +12,10 @@ if run_in_slurm_env == True:
 
 rule all:
     input:
-        # Check the required files
+        # Check if the required files exist
         "input/CDS_regions/Medicago_truncatula_CDS.bed",
 
-        # Requires the outputs of all rules, so it executes all the code
-
+        # Requires the outputs of all rules, so it can trigger the exeuction of all rules
         "input/phastcons/all_Nfix.all.bed",
         "input/phastcons/outside.all.bed",
         "filt_to_remove_CDS/all_Nfix.all_filtered.bed",
@@ -283,7 +282,7 @@ rule blastx_of_CNS:
         done
         """
 
-rule remove_CNS_with_blast_hits: # output 5199
+rule remove_CNS_with_blast_hits:
     input:
         expand("{folder_name}/{linking_phastcons}_filtered.bed",
         folder_name=config["removing_mito_and_cloro"]["folder_name"],
