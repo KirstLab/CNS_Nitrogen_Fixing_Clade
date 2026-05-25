@@ -38,7 +38,7 @@ blastx_of_CNS:
 remove_CNS_with_blast_hits:
     folder_name: final_CNS
     evalue: 0.01
-    lenght: 0
+    length: 0
 
 dist_to_genes_medicago:
     output:

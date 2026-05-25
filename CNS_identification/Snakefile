@@ -294,7 +294,7 @@ rule remove_CNS_with_blast_hits:
         linking_phastcons=config["linking_phastcons"]["score_files"])[0]
     params:
         evalue=config["remove_CNS_with_blast_hits"]["evalue"],
-        lenght=config["remove_CNS_with_blast_hits"]["lenght"]
+        length=config["remove_CNS_with_blast_hits"]["length"]
     output:
         expand("{folder_name}/{linking_phastcons}_final.bed",
         folder_name=config["remove_CNS_with_blast_hits"]["folder_name"],
@@ -310,7 +310,7 @@ rule remove_CNS_with_blast_hits:
 
         grep -v "#" ${{FILES[$(($i + $((len / 2)) ))]}} > tmp.txt
 
-        Rscript removes_cns_with_blast_hits.R --length {params.lenght} --evalue {params.evalue} --out1 ${{OUT[$i]}} ${{FILES[$i]}} tmp.txt
+        Rscript removes_cns_with_blast_hits.R --length {params.length} --evalue {params.evalue} --out1 ${{OUT[$i]}} ${{FILES[$i]}} tmp.txt
 
         rm tmp.txt
 
