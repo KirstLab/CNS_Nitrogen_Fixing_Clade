@@ -476,7 +476,7 @@ tokeep_CNS_pos <- orig_corr2 %>%
 
 tokeep_CNS_neg <- orig_corr2 %>%
     filter(color_code == "sig") %>%
-    filter(orig_corr <= 0.5) %>%
+    filter(orig_corr <= -0.5) %>%
     rownames()
 
 rnaseq_to_ht_cor_pos <- rnaseq_to_ht[rownames(rnaseq_to_ht) %in% tokeep_CNS_pos, ]
