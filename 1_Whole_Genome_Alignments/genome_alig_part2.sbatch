@@ -9,7 +9,7 @@
 #SBATCH --time=48:00:00              # Time limit hrs:min:sec
 #SBATCH --qos=<qos>
 #SBATCH --output=species_%A-%a.out    # Standard output and error log
-#SBATCH --array=1-12                 # Array range
+#SBATCH --array=1-12                 # Array range (pick the number of parallel SLURM slots; need not equal N_OF_TASKS below)
 
 # Load required modules
 module load cnspipeline
@@ -21,7 +21,10 @@ pwd; hostname; date
 
 # Set the name of the species (without the .fna)
 GENOME_NAME=<genome_species>
-# will be used to calculate the number of tasks per array. This must be the same value as set in the header
+# will be used to calculate the chunk size per array task. Each slot processes
+# ceil(N_OF_SEQ / N_OF_TASKS) lines from list_of_chain.sh, where N_OF_SEQ is the
+# line count of that file. Pick the same value as --array above to keep all
+# allocated SLURM tasks busy; pick smaller if you want each task to do more work.
 N_OF_TASKS=74
 
 #Set the number of runs that each SLURM task should do
