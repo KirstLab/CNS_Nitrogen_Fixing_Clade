@@ -58,7 +58,7 @@ necessary_inputs:
     "forw_gen_tree_18_species.tree", # without ancestors
     forw_gen_tree_w_ancestors_18_species.nh
         ]
-    reference_genome: /orange/kirst/wendellpereira/reference_genomes/medicagov5/masked_by_tantan/Medicago_truncatula_masked
+    reference_genome: input/genome/Medicago_truncatula_masked
     genomes: # Masked with tantan
         [
     "Alnus_glutinosa_masked",

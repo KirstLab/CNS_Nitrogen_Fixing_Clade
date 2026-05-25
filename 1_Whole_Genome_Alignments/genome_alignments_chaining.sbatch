@@ -8,7 +8,7 @@
 #SBATCH --mem=40gb                  # Total memory limit
 #SBATCH --time=96:00:00              # Time limit hrs:min:sec
 #SBATCH --output=nspecies_%j.out     # Standard output and error log
-#SBATCH --qos=kirst
+#SBATCH --qos=<qos>
 
 # Load required modules
 module load gcc/5.2.0
@@ -26,6 +26,6 @@ base=$(basename $sample ".fna")
 
 QUERY_GENOME=${base}.fna
 
-python /home/wendellpereira/bin/CNSpipeline/del-query_chaining.py $QUERY_GENOME $THREADS $REF_GENOME_NAME
+python ./del-query_chaining.py $QUERY_GENOME $THREADS $REF_GENOME_NAME
 
 done
