@@ -28,7 +28,7 @@ for line in f:
 		#if so get chromosome name of original sequence from Medicago 
 		chromosome=parsed[1].strip().split('.')[1]
 		#write out same information in new "genome-wide" coordinates based on the fai information for the Medicago genome. Give this sequence a new sequence ".All" sequence name, and coordinates relative to the whole genome. 
-		print parsed[0]+' Medicago_truncatula_masked.All '+str(int(parsed[2])+int(chrDict[chromosome])-1)+' '+parsed[3]+' '+parsed[4]+' 436900332 '+parsed[6]
+		print(parsed[0]+' Medicago_truncatula_masked.All '+str(int(parsed[2])+int(chrDict[chromosome])-1)+' '+parsed[3]+' '+parsed[4]+' 436900332 '+parsed[6])
 		#donen becaues the "sequnece name" has to be uniform in the phastCons analysis, and we want a model that is as genomewide as possible
 	else:
 		#otherwise write out information unchanged. 

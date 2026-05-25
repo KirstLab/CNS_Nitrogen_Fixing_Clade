@@ -86,8 +86,8 @@ def hebing():
             sp+=seq
         if 'Atrichopoda' in name1:
             atr+=seq
-    print len(tae.replace('-','')),len(tu.replace('-','')),len(ata.replace('-','')),len(hv.replace('-','')),len(bd.replace('-','')),len(phe.replace('-','')),len(ob.replace('-','')),len(oi.replace('-','')),len(os.replace('-','')),len(et.replace('-','')),len(oth.replace('-','')),len(sb.replace('-','')),len(zm.replace('-','')),len(sv.replace('-','')),len(si.replace('-','')),len(pha.replace('-','')),len(pv.replace('-','')),len(aco.replace('-','')),len(ma.replace('-','')),len(eg.replace('-','')),len(pda.replace('-','')),len(sp.replace('-','')),len(atr.replace('-',''))
-    print 'tae,tu,ata,hv,bd,phe,ob,oi,os,et,oth,sb,zm,sv,si,pha,pv,aco,ma,eg,pda,sp,atr'
+    print(len(tae.replace('-','')),len(tu.replace('-','')),len(ata.replace('-','')),len(hv.replace('-','')),len(bd.replace('-','')),len(phe.replace('-','')),len(ob.replace('-','')),len(oi.replace('-','')),len(os.replace('-','')),len(et.replace('-','')),len(oth.replace('-','')),len(sb.replace('-','')),len(zm.replace('-','')),len(sv.replace('-','')),len(si.replace('-','')),len(pha.replace('-','')),len(pv.replace('-','')),len(aco.replace('-','')),len(ma.replace('-','')),len(eg.replace('-','')),len(pda.replace('-','')),len(sp.replace('-','')),len(atr.replace('-','')))
+    print('tae,tu,ata,hv,bd,phe,ob,oi,os,et,oth,sb,zm,sv,si,pha,pv,aco,ma,eg,pda,sp,atr')
     f2.write('>T.aestivum\n'+tae+'\n'+'>T.urartu\n'+tu+'\n'+'>A.tauschii\n'+ata+'\n'+'>H.vulgare\n'+hv+'\n'+'>B.distachyon\n'+bd+'\n'+'>P.heterocycla\n'+phe+'\n'+'>O.brachyantha\n'+ob+'\n'+'>O.indica\n'+oi+'\n'+'>O.sativa\n'+os+'\n'+'>E.tef\n'+et+'\n'+'>O.thomaeum\n'+oth+'\n'+'>S.bicolor\n'+sb+'\n'+'>Z.mays\n'+zm+'\n'+'>S.viridis\n'+sv+'\n'+'>S.italica\n'+si+'\n'+'>P.hallii\n'+pha+'\n'+'>P.virgatum\n'+pv+'\n'+'>A.comosus\n'+aco+'\n'+'>M.acuminata\n'+ma+'\n'+'>E.guineensis\n'+eg+'\n'+'>P.dactylifera\n'+pda+'\n'+'>S.polyrhiza\n'+sp+'\n'+'>A.trichopoda\n'+atr+'\n')
     f1.close()
     f2.close()
