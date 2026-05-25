@@ -17,12 +17,12 @@ OUTDIR1=../../results/sequence_analysis/phastCons/phyloFit_tree_models
 
 if [ -e commands_phyloFit.txt ]
 then
-    rm commands_PhyloFit.txt
+    rm commands_phyloFit.txt
 fi
 
 for G in all_Nfix outside
 do
-    printf "${exe} -t ${TREE[$G]} -o ${OUTDIR1}/{G}.background.phyloFit ${DATADIR}/${MAF[$G]}\n" >> commands_PhyloFit.txt
+    printf "${exe} -t ${TREE[$G]} -o ${OUTDIR1}/${G}.background.phyloFit ${DATADIR}/${MAF[$G]}\n" >> commands_phyloFit.txt
 done
 
 #running multiple processes in parallel with xargs
@@ -51,13 +51,13 @@ do
 	#With the converted sequence name and coordinates for Medicago implemented, apply the mafTools sorter tool to make sure the blocks are coordinate-sorted. 
     	mafSorter --maf ${OUTDIR}/training_maf/${G}.converted.maf --seq Medicago_truncatula_masked.All > ${OUTDIR}/training_maf/${G}.converted.sorted.maf
 	#List the commands to be issued to learn the "genomewide" models 
-	printf "${exePC} --estimate-trees ${OUTDIR}/models/${G}.phastCons_v2.tree ${OUTDIR}/training_maf/${G}.converted.sorted.maf ${G}.background.phyloFit.mod > ${outdir}/model_training_wig_results/${G}.phastCons_v2.scores.wig\n" >> commandsPC.txt
+	printf "${exePC} --estimate-trees ${OUTDIR}/models/${G}.phastCons_v2.tree ${OUTDIR}/training_maf/${G}.converted.sorted.maf ${G}.background.phyloFit.mod > ${OUTDIR}/model_training_wig_results/${G}.phastCons_v2.scores.wig\n" >> commandsPC.txt
 
 done
 #run the phastCons commands to learn genome-wide models with PhastCons
 cat commandsPC.txt | xargs -d'\n' --max-procs=2 -I CMD bash -c CMD
 #if running a small number this could also be issued separately. 
-#the output of each command will include an evolutionary model for a conserved and non-conserved state, both with prefixes ${outdir}/models/${G}.phastCons_v2.tree and file name endings of .cons.mod and .noncons.mod, respectively.
+#the output of each command will include an evolutionary model for a conserved and non-conserved state, both with prefixes ${OUTDIR}/models/${G}.phastCons_v2.tree and file name endings of .cons.mod and .noncons.mod, respectively.
 
 #Step 3: Run PhastCons using the learned models to call conserved regions for each chromosome.
 #define output directory for region calling from PhastCons
