@@ -1,2 +1,27 @@
 .DS_Store
 .Rhistory
+
+# Snakemake / pipeline scratch outputs
+species/
+reference/
+input/
+multiple_alignments_ROAST/
+final_CNS/
+nfix_cns/
+fasta_CNS/
+filt_to_remove_*/
+prank.in.*.fa
+commandsPC*.txt
+commands_phyloFit.txt
+*.bb
+*.fai
+*.2bit
+*.maf
+*.svg
+
+# HPC scheduler logs
+slurm-*.out
+*_%j.out
+*_%j.err
+snakemake_*.out
+snakemake_*.err
