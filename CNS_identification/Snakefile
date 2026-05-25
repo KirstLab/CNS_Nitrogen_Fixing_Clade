@@ -375,12 +375,12 @@ rule adds_I_row:
         do
         base=$(basename $i .maf)
 
-            mafAddIRows $i {input[1]} maf/${{base}}_with_I_rows.maf
+            mafAddIRows $i {input[1]} maf/${{base}}_with_I_row.maf
 
         done
 
         ## Then join it all in an unique file again
-        cat maf/Mtrun*_with_I_rows.maf > {output[0]}
+        cat maf/Mtrun*_with_I_row.maf > {output[0]}
 
         # Clean intermediate files
         rm -r maf/
