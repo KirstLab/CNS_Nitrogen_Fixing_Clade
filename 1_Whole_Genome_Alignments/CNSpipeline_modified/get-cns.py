@@ -16,7 +16,7 @@ target=sys.argv[1]
 q_name=os.path.basename(target)
 name=os.path.splitext(q_name)[0]
 cds_file=sys.argv[2]
-cutoff=sys.argv[3]
+cutoff=float(sys.argv[3])
 
 
 def get_cns_fragments():
@@ -25,7 +25,7 @@ def get_cns_fragments():
     f2=open('%s-larger'%(name),'w')
 
     for i in f11:
-        score=i.split('\t')[3]
+        score=float(i.split('\t')[3])
         if score >= cutoff:
             f2.write(i)
 
