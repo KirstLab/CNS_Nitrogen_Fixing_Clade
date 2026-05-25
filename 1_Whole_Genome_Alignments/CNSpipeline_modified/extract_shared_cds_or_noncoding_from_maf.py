@@ -5,7 +5,7 @@
 ##  It will generates the results named *.cds_shared,*.noncoding_shared 
 ##=======================================================================================================
 
-#!/usr/lib/python
+#!/usr/bin/env python3
 #-*- coding:utf-8 -*-
 
 import sys
