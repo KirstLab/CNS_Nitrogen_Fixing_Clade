@@ -1,2 +1,6 @@
 .DS_Store
 .Rhistory
+
+# Platform-specific binaries fetched by accessory_scripts/install_kent_tools.sh
+mafExtract
+mafIndex
