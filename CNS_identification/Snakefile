@@ -71,7 +71,8 @@ rule all:
         "CNS_classified_orthogroup_but_unfiltered_ORTHO.tst",
         "selected_CNS_same_orthogroup.bed",
         "gene_expression_tpm_qnorm_zeromeaned.tst",
-        "all_CNS_heatmap.svg, all_CNS_heatmap_upstream.svg",
+        "all_CNS_heatmap.svg",
+        "all_CNS_heatmap_upstream.svg",
         "all_CNS_heatmap_intronic.svg",
         "all_CNS_heatmap_downstream.svg",
         "all_CNS_heatmap_distal_upstream.svg",
@@ -98,7 +99,8 @@ rule all:
         "nfix_correlation_significance_distal_upstream_all.svg",
         "nfix_heatmap_sig_corr_positive_upstream.svg",
         "nfix_heatmap_sig_corr_positive_downstream.svg",
-        "nfix_heatmap_sig_corr_positive_distal_upstream.svg", "nfix_heatmap_sig_corr_negative_upstream.svg",
+        "nfix_heatmap_sig_corr_positive_distal_upstream.svg",
+        "nfix_heatmap_sig_corr_negative_upstream.svg",
         "nfix_heatmap_sig_corr_negative_downstream.svg",
         "nfix_heatmap_sig_corr_negative_distal_upstream.svg",
         "nod_genes_ATCseq_RNAseq.svg"
@@ -292,7 +294,7 @@ rule remove_CNS_with_blast_hits:
         linking_phastcons=config["linking_phastcons"]["score_files"])[0]
     params:
         evalue=config["remove_CNS_with_blast_hits"]["evalue"],
-        lenght=config["remove_CNS_with_blast_hits"]["lenght"]
+        length=config["remove_CNS_with_blast_hits"]["length"]
     output:
         expand("{folder_name}/{linking_phastcons}_final.bed",
         folder_name=config["remove_CNS_with_blast_hits"]["folder_name"],
@@ -308,7 +310,7 @@ rule remove_CNS_with_blast_hits:
 
         grep -v "#" ${{FILES[$(($i + $((len / 2)) ))]}} > tmp.txt
 
-        Rscript removes_cns_with_blast_hits.R --length {params.lenght} --evalue {params.evalue} --out1 ${{OUT[$i]}} ${{FILES[$i]}} tmp.txt
+        Rscript removes_cns_with_blast_hits.R --length {params.length} --evalue {params.evalue} --out1 ${{OUT[$i]}} ${{FILES[$i]}} tmp.txt
 
         rm tmp.txt
 
@@ -327,10 +329,10 @@ rule chr_sizes:
         chmod a+x {input[0]}
         chmod a+x {input[1]}
 
-        ln -s {input[2]} ./referenge_genome.fa
+        ln -s {input[2]} ./reference_genome.fa
 
-        samtools faidx ./referenge_genome.fa
-        cut -f1-2 *.fai > {output[0]}
+        samtools faidx ./reference_genome.fa
+        cut -f1-2 ./reference_genome.fa.fai > {output[0]}
 
         """
 
@@ -373,12 +375,12 @@ rule adds_I_row:
         do
         base=$(basename $i .maf)
 
-            mafAddIRows $i {input[1]} maf/${{base}}_with_I_rows.maf
+            mafAddIRows $i {input[1]} maf/${{base}}_with_I_row.maf
 
         done
 
         ## Then join it all in an unique file again
-        cat maf/Mtrun*_with_I_rows.maf > {output[0]}
+        cat maf/Mtrun*_with_I_row.maf > {output[0]}
 
         # Clean intermediate files
         rm -r maf/
@@ -550,11 +552,8 @@ rule Gathering_ortho:
     shell:
         """
 
-        # Gathering orthologous
-        sed -i 's/GLYMA_/Glyma./g' {input[0]}
-
-        ## Splitting plaza file to reduce the size. Here, taking only the entrances that are refers to Medicago.
-        awk '{{if ($2 == "mtr") print $0;}}' {input[0]} > {output[0]}
+        # Apply Glyma. normalization and filter to Medicago rows in a single pass.
+        sed 's/GLYMA_/Glyma./g' {input[0]} | awk '{{if ($2 == "mtr") print $0;}}' > {output[0]}
 
         """
 

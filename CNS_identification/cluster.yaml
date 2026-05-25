@@ -7,7 +7,6 @@ __default__:
     qos: <qos name> # Needs to ne adjusted
     output: snakemake_%j.out
     error: snakemake_%j.err
-    time: 02:00:00
     email_user: <users email> # Needs to ne adjusted
     email_type: all
 
@@ -20,8 +19,8 @@ linking_phastcons:
     error: linking_phastcons_%j.err
 
 removing_overlaps_CDS:
-    removing_overlaps_CDS: removing_overlaps_CDS_%j.out
-    removing_overlaps_CDS: removing_overlaps_CDS_%j.err
+    output: removing_overlaps_CDS_%j.out
+    error: removing_overlaps_CDS_%j.err
 
 removing_overlaps_ncRNAs:
     output: removing_overlaps_ncRNAs_%j.out
