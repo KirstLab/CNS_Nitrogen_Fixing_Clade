@@ -99,7 +99,8 @@ rule all:
         "nfix_correlation_significance_distal_upstream_all.svg",
         "nfix_heatmap_sig_corr_positive_upstream.svg",
         "nfix_heatmap_sig_corr_positive_downstream.svg",
-        "nfix_heatmap_sig_corr_positive_distal_upstream.svg", "nfix_heatmap_sig_corr_negative_upstream.svg",
+        "nfix_heatmap_sig_corr_positive_distal_upstream.svg",
+        "nfix_heatmap_sig_corr_negative_upstream.svg",
         "nfix_heatmap_sig_corr_negative_downstream.svg",
         "nfix_heatmap_sig_corr_negative_distal_upstream.svg",
         "nod_genes_ATCseq_RNAseq.svg"
