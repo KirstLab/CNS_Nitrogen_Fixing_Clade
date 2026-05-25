@@ -42,7 +42,7 @@ rule all:
         "species/Mucuna_pruriens_masked.2bit",
         "species/Ochetophila_trinervis_masked.2bit",
         "species/Parasponia_andersonii_masked.2bit",
-        "species/Phaseolus_coccineus_subsp._coccineus_masked.2bit",
+        "species/Phaseolus_coccineus_masked.2bit",
         "species/Phaseolus_vulgaris_masked.2bit",
         "species/Purshia_tridentata_masked.2bit",
         "species/Trifolium_pratense_masked.2bit",
@@ -471,8 +471,6 @@ rule extract_CNS_coord_in_soybean:
                 then
 
                 # all genomes must be in the folder species
-                sed -i 's/Phaseolus_coccineus_subsp._coccineus/Phaseolus_coccineus/g' ${{name}}.maf
-
                 perl Maf2SpanningSeq_PRANK.perl ${{name}}.maf prank_${{name}} -twoBitPath=species | sed '/>/,+1 d' | sed '/total/ d' | grep $SPECIES | awk '{{ print $7}}' | sed 's/$/ '$name'/' >> {output[0]}
 
                 fi

@@ -90,8 +90,8 @@ def others():
     os.system('bedtools merge -i ./%s/sort-%s.bed > ./%s/merge-sort-%s.bed'%(q_name,q_name,q_name,q_name))
     
     # Screen out
-    os.system('maf_sort ./%s/%s.maf  Osativa >./%s/%s.orig.maf'%(q_name,q_name,q_name,q_name))
-    os.system('single_cov2 ./%s/%s.orig.maf R=%s >./reference/tba/Osativa.%s.sing.maf'%(q_name,q_name,reference_genome_name,q_name))
+    os.system('maf_sort ./%s/%s.maf  %s >./%s/%s.orig.maf'%(q_name,q_name,reference_genome_name,q_name,q_name))
+    os.system('single_cov2 ./%s/%s.orig.maf R=%s >./reference/tba/%s.%s.sing.maf'%(q_name,q_name,reference_genome_name,reference_genome_name,q_name))
 
 def main():
     deal_query()
