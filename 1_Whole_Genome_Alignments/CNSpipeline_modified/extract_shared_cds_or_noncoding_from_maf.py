@@ -80,7 +80,7 @@ def get_sequences():
 
         if length==4:
             array=(f11[i].rstrip().split('\t')[3]+end_os+',').split(';')
-	    if len(array)>2:
+            if len(array)>2:
                 kong=len(seq_os)-int(match)
                 seq_os=list1.split(',')[6]
                 bstart=array[0].split(',')[0]
@@ -107,19 +107,19 @@ def get_sequences():
                     startb1=array[b+1].split(',')[0]
                     ran1=int(endb)-int(start_os)
                     b1=ran1
-		    l1=len(seq_os[:b1].replace('-',''))
+                    l1=len(seq_os[:b1].replace('-',''))
                     while l1<ran1:
                         b1+=1
                         l1=len(seq_os[:b1].replace('-',''))
                                         
-		    ranb1=int(startb1)-int(start_os)
+                    ranb1=int(startb1)-int(start_os)
                     b1b=ranb1
                     l1b=len(seq_os[:b1b].replace('-',''))
-		    while l1b<ranb1:
+                    while l1b<ranb1:
                         b1b+=1
                         l1b=len(seq_os[:b1b].replace('-',''))
                     s_non=seq_os[b1:b1b]
-          	    s_cds=seq_os[b0:b1]
+                    s_cds=seq_os[b0:b1]
                     if s_non != '':
                         f4.write(chr_os+'\t'+str(int(start_os)+ran1)+'\t'+str(int(start_os)+ranb1)+'\t'+s_non+'\n')
                         for c in list[2:]:
@@ -129,13 +129,13 @@ def get_sequences():
                                 beg2=c.split(',')[2]
                                 num2=c.split(',')[3]
                                 seq2=c.split(',')[6][b1:b1b]
-				f4.write(name2+'\t'+str(int(beg2)+ran1)+'\t'+str(int(beg2)+ranb1)+'\t'+seq2+'\n')
+                                f4.write(name2+'\t'+str(int(beg2)+ran1)+'\t'+str(int(beg2)+ranb1)+'\t'+seq2+'\n')
                     if s_cds != '':
-	      	        f3.write(chr_os+'\t'+str(int(start_os)+ran0)+'\t'+str(int(start_os)+ran1)+'\t'+s_cds+'\n')
+                        f3.write(chr_os+'\t'+str(int(start_os)+ran0)+'\t'+str(int(start_os)+ran1)+'\t'+s_cds+'\n')
                         for c in list[2:]:
                             c=','.join(c.split())
                             if c != '':
-				name2=c.split(',')[1]
+                                name2=c.split(',')[1]
                                 beg2=c.split(',')[2]
                                 num2=c.split(',')[3]
                                 seq2=c.split(',')[6][b0:b1]
@@ -185,14 +185,14 @@ def get_sequences():
                                 num2=c.split(',')[3]
                                 seq2=c.split(',')[6][b0:bc1]
                                 f3.write(name2+'\t'+str(int(beg2)+ranb1)+'\t'+str(int(beg2)+int(jiange1))+'\t'+seq2+'\n')
-			
-			
-	    if len(array)==2:
+                        
+                        
+            if len(array)==2:
                 kong=len(seq_os)-int(match)
                 seq_os=list1.split(',')[6]
                 bstart=array[0].split(',')[0]
-      	        bend=array[0].split(',')[1]
-	        start2=array[1].split(',')[0]
+                bend=array[0].split(',')[1]
+                start2=array[1].split(',')[0]
                 ran0=int(bstart)-int(start_os)
                 b0=ran0
                 l0=len(seq_os[:b0].replace('-',''))
