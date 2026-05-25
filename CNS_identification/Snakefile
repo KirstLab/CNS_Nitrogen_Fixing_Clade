@@ -329,10 +329,10 @@ rule chr_sizes:
         chmod a+x {input[0]}
         chmod a+x {input[1]}
 
-        ln -s {input[2]} ./referenge_genome.fa
+        ln -s {input[2]} ./reference_genome.fa
 
-        samtools faidx ./referenge_genome.fa
-        cut -f1-2 *.fai > {output[0]}
+        samtools faidx ./reference_genome.fa
+        cut -f1-2 ./reference_genome.fa.fai > {output[0]}
 
         """
 
