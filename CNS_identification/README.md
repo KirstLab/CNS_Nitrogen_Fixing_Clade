@@ -42,7 +42,7 @@ get_species_taxids.sh -t 33090 > viridiplantae.txids
 
 6 - List of genes involved in root nodule symbiosis as gathered from multiple sources
 
-* *nodulation_genes_medicago.csv* (Available in this repository)
+* *nodulation_genes_medicago.csv* — curated by the authors; the list used in the manuscript is provided as a Supplemental File of the publication.
 
 7 - Couple of binaries from Kent tools
 
