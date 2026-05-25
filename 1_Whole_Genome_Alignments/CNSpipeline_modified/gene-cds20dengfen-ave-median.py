@@ -97,7 +97,7 @@ def head():
         else:
             list2=sorted(gene_score)
         if len(list2)%2==1:
-            median=list2[int((len(list2)+1)/2)]
+            median=list2[len(list2)//2]
         else:
             median=(list2[int(len(list2)/2)-1]+list2[int(len(list2)/2)])/2
         f4.write(gene_ID+'\t'+str(gene_average)+'\t'+str(median)+'\n')
