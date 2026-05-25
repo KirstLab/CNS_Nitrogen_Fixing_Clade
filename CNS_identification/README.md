@@ -25,12 +25,14 @@ Nonetheless, a diversity of files are expected to be present in the same directo
 * *integrative_orthology.ORTHO.csv*
 
 
-4 - Code from the [forward genomics method](https://github.com/hillerlab/ForwardGenomics) that was repurposed for a small section of the analysis:
+4 - Code from the [forward genomics method](https://github.com/hillerlab/ForwardGenomics) that was repurposed for a small section of the analysis. Copies of `Maf2SpanningSeq_PRANK.perl`, `Globals.pm`, `MyBDB.pm`, and `MyKentFunctions.pm` are provided under `accessory_scripts/`. Two additional helpers are required at runtime when the `-runPrank` branch of `Maf2SpanningSeq_PRANK.perl` is exercised, and must be downloaded from the same upstream repository and placed next to the others in `accessory_scripts/`:
 
 * *Maf2SpanningSeq_PRANK.perl*
 * *Globals.pm*
 * *MyBDB.pm*
 * *MyKentFunctions.pm*
+* *ConvertTreeModToNewick.perl* (download from `hillerlab/ForwardGenomics`)
+* *ConvertFastaToFastaOneLine.perl* (download from `hillerlab/ForwardGenomics`)
 
 5 - List of accession numbers of *viridiplantae* species on NCBI
 
