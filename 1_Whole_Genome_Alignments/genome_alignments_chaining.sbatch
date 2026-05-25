@@ -26,6 +26,6 @@ base=$(basename $sample ".fna")
 
 QUERY_GENOME=${base}.fna
 
-python /home/wendellpereira/bin/CNSpipeline/del-query_chaining.py $QUERY_GENOME $THREADS $REF_GENOME_NAME
+python ./CNSpipeline_modified/del-query_chaining.py $QUERY_GENOME $THREADS $REF_GENOME_NAME
 
 done
