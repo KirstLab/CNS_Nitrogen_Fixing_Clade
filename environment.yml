@@ -1,0 +1,45 @@
+name: cns-nfc
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  # Core CLI tools loaded by the Snakefile (CNS_identification/Snakefile)
+  - samtools=1.3.1
+  - bedtools=2.27.1
+  - perl=5.24.1
+  - blast            # ncbi_blast / blastx
+  - entrez-direct    # edirect; provides get_species_taxids.sh
+  - prank            # Snakefile uses prank/170427; bioconda's prank is the same upstream release
+  - phast=1.5
+  # UCSC kent tools used by Snakefile (faToTwoBit, faToNib, faSplit, faSize, axtChain, axtToMaf, chainMergeSort,
+  # chainNet, chainPreNet, netSyntenic, netToAxt, axtSort)
+  - ucsc-fatotwobit
+  - ucsc-fatonib
+  - ucsc-fasplit
+  - ucsc-fasize
+  - ucsc-axtchain
+  - ucsc-axttomaf
+  - ucsc-chainmergesort
+  - ucsc-chainnet
+  - ucsc-chainprenet
+  - ucsc-netsyntenic
+  - ucsc-nettoaxt
+  - ucsc-axtsort
+  # Python
+  - python=3.10
+  - biopython        # del-query.py / del-query_modified.py / del-reference.py
+  - parallel         # GNU parallel, used by sbatch scripts
+  # R: install with requirements.R (kept separate because Bioconductor packages
+  # are easier to install through R's BiocManager than through conda).
+  - r-base
+  - pandoc
+# Notes on tools that are NOT available through conda and must be installed
+# manually (see the per-folder READMEs for details):
+#   * CNSpipeline (Liang et al. 2018) — modified copy lives in
+#     1_Whole_Genome_Alignments/CNSpipeline_modified/
+#   * Kent maf utilities mafExtract / mafIndex — see
+#     CNS_identification/accessory_scripts/INSTALL_KENT_TOOLS.md
+#   * ROAST (multiz-tba) — see 1_Whole_Genome_Alignments/README.md
+#   * ForwardGenomics helper Perl scripts (used by Maf2SpanningSeq_PRANK.perl)
+#     — see CNS_identification/README.md
