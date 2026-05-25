@@ -4,9 +4,9 @@
 
 Options:
     -h --help   show this screen.
-    <input1>    INPUT1  file containing the genomes information on NCBI
-    --out1  List of all genomes and ftp links to download
-    --size  Size in nucleotides
+    <input1>    Input BED file with conserved regions to filter.
+    --out1      Path to write the filtered BED.
+    --size      Minimum region size in nucleotides (rows kept satisfy end - start >= size).
 " -> doc
 
 suppressMessages(require(docopt))

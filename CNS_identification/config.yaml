@@ -2,7 +2,7 @@ CDS_file: input/CDS_regions/Medicago_truncatula_CDS.bed
 ncRNAs_file: input/ncRNAS/MtrunA17r5.0-ANR-EGN-r1.7_ncRNAs.gff3
 TEs_file: input/TEs/MtrunA17r5.0-20161119-ANR_tephra_transposons_v1.1.locus_tags.20171205.fix.gff3
 ref_genome: input/genome/MtrunA17r5.0-20161119-ANR.fasta
-gtf_file: input/genome/MtrunA17r5.0-ANR-EGN-r1.6.gtf
+gtf_file: input/genome/MtrunA17r5.0-ANR-EGN-r1.7.gtf
 
 linking_phastcons:
     path: PhastCons
