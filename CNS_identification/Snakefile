@@ -552,11 +552,8 @@ rule Gathering_ortho:
     shell:
         """
 
-        # Gathering orthologous
-        sed -i 's/GLYMA_/Glyma./g' {input[0]}
-
-        ## Splitting plaza file to reduce the size. Here, taking only the entrances that are refers to Medicago.
-        awk '{{if ($2 == "mtr") print $0;}}' {input[0]} > {output[0]}
+        # Apply Glyma. normalization and filter to Medicago rows in a single pass.
+        sed 's/GLYMA_/Glyma./g' {input[0]} | awk '{{if ($2 == "mtr") print $0;}}' > {output[0]}
 
         """
 
