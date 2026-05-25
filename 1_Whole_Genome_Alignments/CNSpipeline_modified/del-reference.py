@@ -29,18 +29,18 @@ def deal_target():
     tf2=open('./reference/t1.fa','w')
     tf22=open('./reference/tba/%s.fa'%(t_name),'w')
     for seq_record in SeqIO.parse(tf1,'fasta'):
-	id=str(seq_record.id)
+        id=str(seq_record.id)
         seq=str(seq_record.seq)
         length=str(len(seq))
         tf2.write('>'+ t_name + '.'+ id +'\n'+ seq +'\n')
         tf22.write('>'+ t_name + ':'+ id + ':' + '1' + ':' + '+' + ':' + length + '\n'+ seq +'\n')
     tf1.close()
     tf2.close()
-    tf22.close()	
+    tf22.close()        
     os.system('fold -w 70 ./reference/t1.fa > ./reference/t.fa') 
     os.system('fold -w 70 ./reference/tba/%s.fa >./reference/tba/%s'%(t_name,t_name)) 
     os.system('rm ./reference/t1.fa ./reference/tba/%s.fa'%(t_name)) 
-	
+        
 def lastdb():
     os.system('lastdb -uMAM8 -P10 ./reference/tdb  ./reference/t.fa \n' )
     os.system('samtools faidx ./reference/t.fa \n' )

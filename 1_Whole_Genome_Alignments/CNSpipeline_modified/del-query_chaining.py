@@ -31,7 +31,7 @@ def deal_query():
     tf4=open('%s/q1.fa'%(q_name),'w')
     tf44=open('./reference/%s-multi'%(q_name),'w')
     for seq_record in SeqIO.parse(tf3,'fasta'):
-	id=str(seq_record.id)
+        id=str(seq_record.id)
         seq=str(seq_record.seq)
         length=str(len(seq))
         tf4.write('>'+ q_name +'.'+ id +'\n'+ seq +'\n')
